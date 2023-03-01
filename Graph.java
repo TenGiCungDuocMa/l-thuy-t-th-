@@ -203,19 +203,19 @@ public abstract class Graph {
 		return maTranKe;
 	}
 
-	// kiểm tra đồ thị có phải là con của một đồ thị khác hay không
-	public boolean hasSubGraph(Graph graph) {
-		int[][] matrix = graph.getMaTranKe();
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[i].length; j++) {
-				System.out.println(matrix[i][j] + ", " + maTranKe[i][j]);
-				if ((matrix[i][j] > 0) && (maTranKe[i][j] < 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+// 	// kiểm tra đồ thị có phải là con của một đồ thị khác hay không
+// 	public boolean hasSubGraph(Graph graph) {
+// 		int[][] matrix = graph.getMaTranKe();
+// 		for (int i = 0; i < matrix.length; i++) {
+// 			for (int j = 0; j < matrix[i].length; j++) {
+// 				System.out.println(matrix[i][j] + ", " + maTranKe[i][j]);
+// 				if ((matrix[i][j] > 0) && (maTranKe[i][j] < 0)) {
+// 					return false;
+// 				}
+// 			}
+// 		}
+// 		return true;
+// 	}
 
 	public static void main(String[] args) {
 		Graph gr = new UndirectedGraph(13);
