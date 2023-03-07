@@ -144,38 +144,60 @@ public class UndirectedGraph extends Graph { // đồ thị vô hướng
 		C.add(0);
 		stack.add(0);
 		while (!stack.isEmpty()) {
-			int a = stack.pop();
-			if (H.deg(a) > 0) {
-				List<Integer> sub = new ArrayList<Integer>();
-				sub.add(a);
-				while (H.deg(a) > 0) {
-					stack.push(a);
-					b: for (int i = 0; i < H.maTranKe.length; i++) {
-						if (H.hasEdge(a, i)) {
-							sub.add(i);
-							H.removeEdge(a, i);
-							a = i;
-							break b;
-						}
-					}
-				}
-				System.out.println(sub);
-				c:for (int i = 0; i < C.size(); i++) {
-					if (C.get(i).equals(a)) {
-						C.remove(i);
-						C.addAll(i, sub);
-						break c;
+			Integer a = stack.pop();
+			List<Integer> sub = new ArrayList<Integer>();
+			sub.add(a);
+
+			while (H.deg(a) > 0) {
+				stack.push(a);
+				b: for (int i = 0; i < H.maTranKe.length; i++) {
+					if (H.hasEdge(a, i)) {
+						sub.add(i);
+						H.removeEdge(a, i);
+						a = i;
+						break b;
 					}
 				}
 			}
+
+			if (sub.size() > 1) {
+				int i = C.indexOf(a);
+				C.remove(i);
+				C.addAll(i, sub);
+
+			}
 		}
+		this.printMatrix();
 		return C;
 	}
 
 	@Override
 	public List<Integer> duongDiEuler() {
-		
-		return null;
+		List<Integer> result = new ArrayList<Integer>();
+		List<Integer> dinhle = new ArrayList<Integer>();
+		for (int i = 0; i < maTranKe.length; i++) {
+			if (deg(i) % 2 == 1) {
+				dinhle.add(i);
+			}
+		}
+		if (dinhle.size() != 2) {
+			throw new RuntimeException("Khong co duong di Euler!");
+		}
+		Integer x = dinhle.get(0);
+		Integer y = dinhle.get(1);
+		Graph H = new UndirectedGraph(this.maTranKe);
+		H.addEdge(x, y);
+		List<Integer> C = H.chuTrinhEuler();
+		System.out.println(C);
+		for (int i = 0; i < C.size() - 1; i++) {
+			if ((C.get(i) == x && C.get(i + 1) == y) || (C.get(i) == y && C.get(i + 1) == x)) {
+				List<Integer> c1 = C.subList(0, i + 1);
+				List<Integer> c2 = C.subList(i + 1, C.size() - 1);
+				result.addAll(c2);
+				result.addAll(c1);
+				break;
+			}
+		}
+		return result;
 	}
-
 }
